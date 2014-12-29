@@ -1,6 +1,8 @@
 # AuthTokens API
 
-Endpoints for handling registration, logging in, logging out and authentication tokens. All POST data will be raw JSON. Errors simply contain a JSON object with a single attribute, `error`.
+Endpoints for handling registration, logging in, logging out and authentication tokens. All POST data will be raw JSON. Once a user has authenticated, they will be identified by the HTTP Header Authentication, which contains their assigned session token.
+
+Requests that result in errors have a response that will contain a JSON object with a single attribute, `error`.
 
 **Example Error Response**
 
@@ -33,7 +35,6 @@ password | Required. Raw passwords can be arbitrarily long and can contain any c
 POST /api/register/ HTTP/1.1
 Host: localhost:8000
 Content-Type: application/json
-Cache-Control: no-cache
 
 {"username": "AzureDiamond", "password":"hunter2"}
 ```
@@ -65,7 +66,6 @@ password | Required. Raw passwords can be arbitrarily long and can contain any c
 POST /api/login/ HTTP/1.1
 Host: localhost:8000
 Content-Type: application/json
-Cache-Control: no-cache
 
 {"username": "AzureDiamond", "password":"hunter2"}
 ```
