@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 
 from authtokens.models import Token
-from authtokens.utils import json_response, token_required
+from utils import json_response, token_required
 
 
 def register(request):
