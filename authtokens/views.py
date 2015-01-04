@@ -3,9 +3,10 @@ from django.contrib.auth import authenticate, get_user_model
 from django.db import IntegrityError
 
 from authtokens.models import Token
-from utils import json_response, token_required
+from utils import json_response, token_required, endpoint
 
 
+@endpoint
 def register(request):
     if request.method == 'POST':
         try:
@@ -25,15 +26,8 @@ def register(request):
             'username': user.username
         }, status=201)
 
-    elif request.method == 'OPTIONS':
-        return json_response({})
 
-    else:
-        return json_response({
-            'error': 'Invalid Method'
-        }, status=405)
-
-
+@endpoint
 def login(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -61,14 +55,9 @@ def login(request):
             return json_response({
                 'error': 'Invalid Data'
             }, status=400)
-    elif request.method == 'OPTIONS':
-        return json_response({})
-    else:
-        return json_response({
-            'error': 'Invalid Method'
-        }, status=405)
 
 
+@endpoint
 @token_required
 def logout(request):
     if request.method == 'POST':

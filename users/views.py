@@ -1,10 +1,10 @@
 from django.core import serializers
-from django.http import HttpResponse
 
-from utils import json_response
+from utils import json_response, endpoint
 from users.models import UserProfile
 
 
+@endpoint
 def list_users(request):
     if request.method == 'GET':
         users = serializers.serialize(
@@ -12,30 +12,15 @@ def list_users(request):
         )
         return json_response(users, serialize=False)
 
-    elif request.method == 'OPTIONS':
-        return json_response({})
 
-    else:
-        return json_response({'error': "Bad Request"}, status=400)
-
-
-def profile(request):
-    if request.method == 'GET':
-        return _get_user()
+@endpoint
+def profile(request, username=None):
+    if request.method == 'GET' and username is not None:
+        user = UserProfile.objects.filter(username=username)
+        response = serializers.serialize(
+            "json", user, fields=UserProfile.API_FIELDS
+        )
+        return json_response(response, serialize=False)
 
     elif request.method == 'POST':
-        return _update_user()
-
-    elif request.method == 'OPTIONS':
         return json_response({})
-
-    else:
-        return json_response({'error': "Bad Request"}, status=400)
-
-
-def _get_user(request):
-    return json_response({})
-
-
-def _update_user(request):
-    return json_response({})

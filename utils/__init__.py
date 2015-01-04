@@ -34,3 +34,19 @@ def token_required(func):
         }, status=401)
 
     return inner
+
+
+def endpoint(func):
+    def inner(request, *args, **kwargs):
+        if request.method == 'OPTIONS':
+            return json_response({})
+
+        response = func(request, *args, **kwargs)
+
+        if response is None:
+            return json_response({'error': "Bad Request"}, status=400)
+
+        else:
+            return response
+
+    return inner
