@@ -1,6 +1,5 @@
 import json
-from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, get_user_model
 from django.db import IntegrityError
 
 from authtokens.models import Token
@@ -13,6 +12,7 @@ def register(request):
             data = json.loads(request.body)
             username = data['username']
             password = data['password']
+            User = get_user_model()
             user = User.objects.create_user(username, None, password)
             token = Token.objects.create(user=user)
         except (ValueError, IndexError, IntegrityError) as e:

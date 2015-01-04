@@ -88,3 +88,7 @@ STATIC_URL = '/static/'
 # BreweryDB
 BREWERYDB_API_KEY = os.environ['BREWERYDB_API_KEY']
 BREWERYDB_BASEURI = "https://api.brewerydb.com/v2"
+
+
+# User Profile
+AUTH_USER_MODEL = 'users.UserProfile'

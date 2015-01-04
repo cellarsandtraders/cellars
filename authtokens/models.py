@@ -1,11 +1,12 @@
 import binascii
 import os
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.db import models
+from django.conf import settings
 
 
 class Token(models.Model):
-    user = models.ForeignKey(User, related_name='authtoken')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='authtoken')
     token = models.CharField(max_length=40, primary_key=True)
     created = models.DateTimeField(auto_now_add=True)
 

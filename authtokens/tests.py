@@ -1,6 +1,6 @@
 import json
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.test.client import Client
@@ -30,7 +30,7 @@ class RegisterTests(TestCase):
         username = response_data['username']
 
         # Assert the response token matches the user record in the DB
-        user = User.objects.get(username=username)
+        user = get_user_model().objects.get(username=username)
         authtoken = user.authtoken.get()
         self.assertEqual(authtoken.token, response_token)
 
@@ -71,7 +71,7 @@ class LoginLogoutTests(TestCase):
     def setUp(self):
         self.username = 'test'
         self.password = '123'
-        self.user = User.objects.create_user(self.username, None, self.password)
+        self.user = get_user_model().objects.create_user(self.username, None, self.password)
         self.token = Token.objects.create(user=self.user)
 
     def test_successful_login(self):
@@ -92,7 +92,7 @@ class LoginLogoutTests(TestCase):
         username = response_data['username']
 
         # Assert the response token matches the user record in the DB
-        user = User.objects.get(username=username)
+        user = get_user_model().objects.get(username=username)
         authtoken = user.authtoken.get()
         self.assertEqual(authtoken.token, response_token)
 
