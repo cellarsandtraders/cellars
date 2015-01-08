@@ -5,7 +5,7 @@ Endpoints for handling search requests
 
 - [GET: `/api/search/`](#get-apisearch)
 
-## GET: `/api/search`
+### GET: `/api/search`
 
 Submit credentials for registering a new user.
 

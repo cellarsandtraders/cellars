@@ -6,7 +6,7 @@ Endpoints for handling User Profile objects
 - [GET: `/api/users/`](#get-apiusers)
 - [GET: `/api/users/:username`](#get-apiusersusername)
 
-## GET: `/api/users`
+### GET: `/api/users`
 
 Get a list of all active users.
 
@@ -52,7 +52,7 @@ Content-Type: application/json
 ```
 
 
-## GET: `/api/users/:username`
+### GET: `/api/users/:username`
 
 Get all details for a single specified user
 

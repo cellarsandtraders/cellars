@@ -20,7 +20,7 @@ Content-Type: application/json
 - [POST: `/api/login/`](#post-apilogin)
 - [POST: `/api/logout/`](#post-apilogout)
 
-## POST: `/api/register`
+### POST: `/api/register`
 
 Submit credentials for registering a new user.
 
@@ -51,7 +51,7 @@ Content-Type: application/json
 ```
 
 
-## POST: `/api/login`
+### POST: `/api/login`
 
 Submit credentials authenticating an existing user.
 
@@ -82,7 +82,7 @@ Content-Type: application/json
 ```
 
 
-## POST: `/api/logout`
+### POST: `/api/logout`
 
 Request to destroy the current authenticated session. Note the Authorization header is required. The logout request expects no body content.
 
