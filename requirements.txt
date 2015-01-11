@@ -1,3 +1,4 @@
 Django==1.7.1
 boto==2.6.0
 wsgiref==0.1.2
+git+ssh://git@github.com/cellarsandtraders/brewerydb@pip-installable
