@@ -5,6 +5,7 @@ Endpoints for handling User Profile objects
 
 - [GET: `/api/users/`](#get-apiusers)
 - [GET: `/api/users/:username`](#get-apiusersusername)
+- [POST: `/api/users/:username`](#post-apiusersusername)
 
 ### GET: `/api/users`
 
@@ -95,4 +96,72 @@ Content-Type: application/json
   }
 ]
 
+```
+
+### POST: `/api/users/:username`
+
+Update the user profile for the specified user. Note, the username must match the current authenticated user.
+
+**Example Usage**
+
+```
+POST /api/users/adam/ HTTP/1.1
+Authorization: Token d8473d2b993b4ef19c21bcd71fe3f65fe7d6189d
+Content-Type: application/json
+```
+```json
+{
+  "username": "adam",
+  "first_name":"Adam",
+  "last_name": "Wonak",
+  "email": "adam.wonak@gmail.com"
+}
+```
+
+**Example Response**
+
+```
+HTTP/1.0 200 OK
+Content-Type: application/json
+```
+
+```json
+{
+  "username": "adam",
+  "first_name": "Adam",
+  "last_name": "Wonak",
+  "email": "adam.wonak@gmail.com"
+}
+```
+
+If there are any missing fields or invalid fields, the server will respond with a HTTP 400 error response like the following:
+
+
+**Example Invalid Usage**
+
+```
+POST /api/users/adam/ HTTP/1.1
+Authorization: Token d8473d2b993b4ef19c21bcd71fe3f65fe7d6189d
+Content-Type: application/json
+```
+```json
+{
+  "username": "adam",
+  "first_name":"Adam",
+  "email": "xxinvalidxx"
+}
+```
+
+**Example Error Response**
+
+```
+HTTP/1.0 200 OK
+Content-Type: application/json
+```
+
+```json
+{
+    "last_name": ["This field is required."],
+    "email": ["Enter a valid email address."]
+}
 ```
