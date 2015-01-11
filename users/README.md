@@ -155,7 +155,7 @@ Content-Type: application/json
 **Example Error Response**
 
 ```
-HTTP/1.0 200 OK
+HTTP/1.0 400 OK
 Content-Type: application/json
 ```
 
