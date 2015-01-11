@@ -1,6 +1,6 @@
 from django.conf import settings
-from brewerydb import BreweryDb
 from utils import json_response, endpoint
+from utils.brewerydb import BreweryDb
 
 BreweryDb.configure(
     settings.BREWERYDB_API_KEY,
