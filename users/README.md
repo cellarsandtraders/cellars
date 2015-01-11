@@ -155,7 +155,7 @@ Content-Type: application/json
 **Example Error Response**
 
 ```
-HTTP/1.0 400 OK
+HTTP/1.0 400 BAD REQUEST
 Content-Type: application/json
 ```
 
