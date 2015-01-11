@@ -24,6 +24,7 @@ def token_required(func):
                 token = tokens[1]
                 try:
                     request.token = Token.objects.get(token=token)
+                    request.user = request.token.user
                     return func(request, *args, **kwargs)
                 except Token.DoesNotExist:
                     return json_response({
