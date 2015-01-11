@@ -1,5 +1,5 @@
 import json
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 
 from authtokens.models import Token
 
@@ -30,6 +30,10 @@ def token_required(func):
                     return json_response({
                         'error': 'Token not found'
                     }, status=401)
+                except Http404:
+                    return json_response({
+                        'error': 'Not Found'
+                    }, status=404)
         return json_response({
             'error': 'Invalid Header'
         }, status=401)

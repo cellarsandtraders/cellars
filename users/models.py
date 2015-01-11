@@ -16,10 +16,10 @@ class DateTimeAware(models.Model):
 class UserProfile(AbstractUser, DateTimeAware):
     #Add other user attributes here
     cellar = models.ManyToManyField("CellarItem", related_name='cellar')
-    wants = models.ManyToManyField("CellarItem", related_name='wishlist')
+    wishlist = models.ManyToManyField("CellarItem", related_name='wishlist')
 
     API_FIELDS = [
-        "username", "wants", "first_name", "last_name", "created",
+        "username", "wishlist", "first_name", "last_name", "created",
         "is_active", "modified", "is_superuser", "is_staff", "last_login",
         "groups", "user_permissions", "email", "cellar", "date_joined",
     ]
@@ -38,7 +38,7 @@ class CellarItem(DateTimeAware):
     label = models.URLField(blank=True)
 
     def __unicode__(self):
-        return self.name
+        return self.beer_name
 
 
 # Post save stuff
