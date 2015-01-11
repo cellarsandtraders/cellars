@@ -13,7 +13,7 @@ class SearchTests(TestCase):
         self.client = Client()
 
     @override_settings(BREWERYDB_BASEURI='http://example.com')
-    @mock.patch('brewerydb.requests')
+    @mock.patch('utils.brewerydb.requests')
     def test_successful_search(self, mock_requests):
         mock_requests.get.return_value = mock_response = Mock()
         mock_response.json.return_value = {"status": "success", "data": []}
