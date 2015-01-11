@@ -1,7 +1,13 @@
 language: python
+
 python:
   - "2.7"
+
+env:
+  - BREWERYDB_API_KEY=asdf
+
 install:
   - pip install -q -r requirements.txt
+
 script:
   - python manage.py test
