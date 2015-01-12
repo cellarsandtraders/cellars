@@ -15,7 +15,9 @@
     "50e41eaa-daf8-c884-d311-e859f392091a",
     "be0f665d-c93b-b8e5-c9e0-d16dcd96ba3a",
     "a4216a51-ed74-4298-a5cd-c03e37b85a52",
-    "1317c654-7726-e6b2-e8aa-8ebc7a1be907"
+    "1317c654-7726-e6b2-e8aa-8ebc7a1be907",
+    "127e064d-c355-97f6-04ac-a38b85f8b891",
+    "18d02aff-0a8a-5047-1ed7-66d92fd2793f"
   ],
   "requests": [
     {
@@ -34,6 +36,20 @@
     },
     {
       "collectionId": "0b60052e-bb9a-cccb-1a39-f7b38722e6f2",
+      "id": "127e064d-c355-97f6-04ac-a38b85f8b891",
+      "name": "Site Activity Stream",
+      "description": "",
+      "url": "http://localhost:8000/api/users/activity/",
+      "method": "GET",
+      "headers": "Content-Type: application/json\n",
+      "data": "{\"username\":\"jeff\",\"password\":\"asdf\"}",
+      "dataMode": "raw",
+      "timestamp": 0,
+      "responses": [],
+      "version": 2
+    },
+    {
+      "collectionId": "0b60052e-bb9a-cccb-1a39-f7b38722e6f2",
       "id": "1317c654-7726-e6b2-e8aa-8ebc7a1be907",
       "name": "User Wishlist Delete",
       "description": "",
@@ -45,6 +61,20 @@
       "timestamp": 0,
       "version": 2,
       "time": 1421020147837
+    },
+    {
+      "collectionId": "0b60052e-bb9a-cccb-1a39-f7b38722e6f2",
+      "id": "18d02aff-0a8a-5047-1ed7-66d92fd2793f",
+      "name": "User Activity Stream",
+      "description": "",
+      "url": "http://localhost:8000/api/users/adam/activity/",
+      "method": "GET",
+      "headers": "Content-Type: application/json\n",
+      "data": "{\"username\":\"jeff\",\"password\":\"asdf\"}",
+      "dataMode": "raw",
+      "timestamp": 0,
+      "responses": [],
+      "version": 2
     },
     {
       "collectionId": "0b60052e-bb9a-cccb-1a39-f7b38722e6f2",
@@ -180,11 +210,11 @@
       "url": "http://localhost:8000/api/users/adam/cellar/",
       "method": "POST",
       "headers": "Content-Type: application/json\nAuthorization: Token {{TOKEN}}\n",
-      "data": "{\n  \"pk\": null,\n  \"beer_id\": \"sHgBrJ\",\n  \"beer_name\": \"Big Hugs\",\n  \"brewery_id\": \"lZfiot\",\n  \"brewery_name\": \"Half Acre Beer Company\",\n  \"style\": \"American-Style Imperial Stout\",\n  \"abv\": \"10\",\n  \"year\": \"2012\",\n  \"quantity\": \"1\",\n  \"willing_to_trade\": false,\n  \"label\": \"https://s3.amazonaws.com/brewerydbapi/beer/sHgBrJ/upload_9PO5av-large.png\"\n}\n",
+      "data": "{\n  \"pk\": 14,\n  \"beer_id\": \"sHgBrJ\",\n  \"beer_name\": \"Big Hugs\",\n  \"brewery_id\": \"lZfiot\",\n  \"brewery_name\": \"Half Acre Beer Company\",\n  \"style\": \"American-Style Imperial Stout\",\n  \"abv\": \"10\",\n  \"year\": \"2012\",\n  \"quantity\": \"1\",\n  \"willing_to_trade\": false,\n  \"label\": \"https://s3.amazonaws.com/brewerydbapi/beer/sHgBrJ/upload_9PO5av-large.png\"\n}\n",
       "dataMode": "raw",
       "timestamp": 0,
       "version": 2,
-      "time": 1421020126464
+      "time": 1421020915068
     },
     {
       "collectionId": "0b60052e-bb9a-cccb-1a39-f7b38722e6f2",

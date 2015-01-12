@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-#from django.db.models.signals import post_save
-# from django.contrib.sites.models import Site
-# from actstream import action
+from django.db.models.signals import post_save
+
+from actstream import action
 
 
 class DateTimeAware(models.Model):
@@ -43,9 +43,8 @@ class CellarItem(DateTimeAware):
 
 # Post save stuff
 
-# def user_registered_action(sender, instance, created, **kwargs):
-#     if created:
-#         current_site = Site.objects.get_current()
-#         action.send(instance, verb="joined", target=current_site)
+def user_registered_action(sender, instance, created, **kwargs):
+    if created:
+        action.send(instance, verb="joined")
 
-#post_save.connect(user_registered_action, sender=User)
+post_save.connect(user_registered_action, sender=UserProfile)

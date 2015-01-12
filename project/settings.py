@@ -38,7 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'authtokens',
     'search',
-    'users',
+    'users.apps.UsersBackendConfig',
+    'actstream',
 )
 
 MIDDLEWARE_CLASSES = (

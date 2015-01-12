@@ -1,6 +1,8 @@
 Django==1.7.1
 boto==2.6.0
 coveralls==0.5
+django-activity-stream==0.5.1
+django-jsonfield==0.9.13
 mock==1.0.1
 requests==2.5.1
 wsgiref==0.1.2

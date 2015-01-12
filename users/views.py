@@ -1,7 +1,12 @@
 import json
+from actstream import action
+from actstream.actions import (
+    follow as follow_action,
+    unfollow as unfollow_action
+)
+from actstream.models import Action, user_stream
 from django.core import serializers
 from django.shortcuts import get_object_or_404
-
 
 from utils import json_response, endpoint, token_required
 from users.models import UserProfile
@@ -20,13 +25,13 @@ def user_list(request):
 @endpoint
 def profile(request, username):
     if request.method == 'GET':
-        return user_details(request, username)
+        return _user_details(request, username)
 
     elif request.method == 'POST':
-        return user_update(request, username)
+        return _user_update(request, username)
 
 
-def user_details(request, username):
+def _user_details(request, username):
     user = get_object_or_404(UserProfile, username=username)
     response = serializers.serialize(
         "json", [user], fields=UserProfile.API_FIELDS
@@ -35,7 +40,7 @@ def user_details(request, username):
 
 
 @token_required
-def user_update(request, username):
+def _user_update(request, username):
     user = request.user
     # Do not allow a user to update anyone other than themself
     if user.username != username:
@@ -53,16 +58,16 @@ def user_update(request, username):
 @endpoint
 def collection(request, username, collection):
     if request.method == 'GET':
-        return user_collection_list(request, username, collection)
+        return _user_collection_list(request, username, collection)
 
     elif request.method == 'POST':
-        return user_collection_update(request, username, collection)
+        return _user_collection_update(request, username, collection)
 
     elif request.method == 'DELETE':
-        return user_collection_delete(request, username, collection)
+        return _user_collection_delete(request, username, collection)
 
 
-def user_collection_list(request, username, collection):
+def _user_collection_list(request, username, collection):
     user = get_object_or_404(UserProfile, username=username)
     collection = user.cellar if collection == 'cellar' else user.wishlist
     cellar = serializers.serialize("json", collection.all())
@@ -70,9 +75,9 @@ def user_collection_list(request, username, collection):
 
 
 @token_required
-def user_collection_update(request, username, collection):
+def _user_collection_update(request, username, collection_type):
     user = request.user
-    collection = user.cellar if collection == 'cellar' else user.wishlist
+    collection = user.cellar if collection_type == 'cellar' else user.wishlist
     # Do not allow a user to update anyone other than themself
     if user.username != username:
         return json_response({'error': "Forbidden"}, status=403)
@@ -84,6 +89,11 @@ def user_collection_update(request, username, collection):
         return json_response(itemform.errors, status=400)
 
     itemform.save()
+    action.send(
+        user, verb='added', action_object=item,
+        collection=collection_type, beer_id=item.pk
+    )
+
     return json_response({
         'username': username,
         'created': created,
@@ -93,9 +103,9 @@ def user_collection_update(request, username, collection):
 
 
 @token_required
-def user_collection_delete(request, username, collection):
+def _user_collection_delete(request, username, collection_type):
     user = request.user
-    collection = user.cellar if collection == 'cellar' else user.wishlist
+    collection = user.cellar if collection_type == 'cellar' else user.wishlist
     # Do not allow a user to update anyone other than themself
     if user.username != username:
         return json_response({'error': "Forbidden"}, status=403)
@@ -104,4 +114,34 @@ def user_collection_delete(request, username, collection):
     item = get_object_or_404(collection, pk=data['pk'])
     if item:
         item.delete()
+        action.send(
+            user, verb='removed', action_object=item,
+            collection=collection_type, beer_id=item.pk
+        )
     return json_response({})
+
+
+@token_required
+def relationship(request, username, action):
+    if request.method == 'GET':
+        user = UserProfile.objects.get(username__exact=username)
+        if action == 'follow':
+            follow_action(request.user, user)
+        elif action == 'unfollow':
+            unfollow_action(request.user, user)
+        else:
+            return
+        return json_response({})
+
+
+def activity(request, username=None):
+    if request.method == 'GET':
+        if username:
+            user = get_object_or_404(UserProfile, username=username)
+            stream = []
+            for action in user_stream(user, with_user_activity=True):
+                stream.append(str(action))
+        else:
+            stream = [str(action) for action in Action.objects.all()[:50]]
+
+        return json_response(stream)
