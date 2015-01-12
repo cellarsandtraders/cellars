@@ -100,3 +100,124 @@ class UserTests(TestCase):
             content_type='application/json'
         )
         self.assertEqual(response.status_code, 403)
+
+
+class UserCollectionTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.username = 'test'
+        self.password = '123'
+        self.user = UserProfile.objects.create_user(
+            self.username, None, self.password)
+        self.token = Token.objects.create(user=self.user)
+        self.item = {
+            "beer_id": "sHgBrJ",
+            "beer_name": "Big Hugs",
+            "brewery_id": "lZfiot",
+            "brewery_name": "Half Acre Beer Company",
+            "style": "American-Style Imperial Stout",
+            "abv": "10",
+            "year": "2012",
+            "quantity": "1",
+            "willing_to_trade": False,
+            "label": "https://s3.amazonaws.com/brewerydbapi/beer/sHgBrJ/upload_9PO5av-large.png"
+        }
+        self.collection = 'cellar'
+
+    def test_user_list(self):
+        self.user.cellar.create(**self.item)
+        response = self.client.get(reverse('collection', kwargs={
+            'username': self.username, 'collection': self.collection
+        }))
+
+        self.assertEqual(response.status_code, 200)
+
+        # Read the response data
+        response_data = json.loads(response.content)
+        self.assertTrue(isinstance(response_data, list))
+        self.assertTrue(len(response_data), 1)
+        self.assertEqual(response_data[0]['fields']['beer_name'], u'Big Hugs')
+
+    def test_user_collection_update(self):
+        ## Add an item to an empty collection
+        self.assertEqual(self.user.cellar.all().count(), 0)
+        self.item.update({'pk': None})
+        response = self.client.post(
+            reverse('collection', kwargs={
+                'username': self.username, 'collection': self.collection
+            }),
+            json.dumps(self.item),
+            HTTP_AUTHORIZATION='Token {}'.format(self.token.token),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 200)
+
+        # Read the response data
+        response_data = json.loads(response.content)
+        self.assertTrue(isinstance(response_data, dict))
+        self.assertEqual(response_data['item']['beer_name'], u"Big Hugs")
+        self.assertEqual(self.user.cellar.all().count(), 1)
+
+        ## Update an existing item in a collection
+        self.item.update({'pk': response_data['pk'], 'beer_name': "Little Hugs"})
+        response = self.client.post(
+            reverse('collection', kwargs={
+                'username': self.username, 'collection': self.collection
+            }),
+            json.dumps(self.item),
+            HTTP_AUTHORIZATION='Token {}'.format(self.token.token),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 200)
+
+        # Read the response data
+        response_data = json.loads(response.content)
+        self.assertTrue(isinstance(response_data, dict))
+        self.assertEqual(response_data['item']['beer_name'], u"Little Hugs")
+        self.assertEqual(self.user.cellar.all().count(), 1)
+
+    def test_user_cannot_edit_another_users_collection(self):
+        response = self.client.post(
+            reverse('collection', kwargs={
+                'username': 'not_me', 'collection': self.collection
+            }),
+            json.dumps(self.item),
+            HTTP_AUTHORIZATION='Token {}'.format(self.token.token),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 403)
+
+    def test_user_collection_delete_item(self):
+        item = self.user.cellar.create(**self.item)
+        self.assertEqual(self.user.cellar.all().count(), 1)
+        response = self.client.delete(
+            reverse('collection', kwargs={
+                'username': self.username, 'collection': self.collection
+            }),
+            json.dumps({'pk': item.pk}),
+            HTTP_AUTHORIZATION='Token {}'.format(self.token.token),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.user.cellar.all().count(), 0)
+
+    def test_user_collection_delete_invalid_item(self):
+        response = self.client.delete(
+            reverse('collection', kwargs={
+                'username': self.username, 'collection': self.collection
+            }),
+            json.dumps({'pk': 999}),
+            HTTP_AUTHORIZATION='Token {}'.format(self.token.token),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 404)
+
+        response = self.client.delete(
+            reverse('collection', kwargs={
+                'username': 'not_mine', 'collection': self.collection
+            }),
+            json.dumps({}),
+            HTTP_AUTHORIZATION='Token {}'.format(self.token.token),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 403)
