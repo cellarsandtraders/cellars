@@ -6,4 +6,6 @@ env:
 install:
   - pip install -q -r requirements.txt
 script:
-  - python manage.py test
+  coverage run --source=cellars python manage.py test
+after_success:
+  coveralls
