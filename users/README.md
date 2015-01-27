@@ -3,12 +3,12 @@
 Endpoints for handling User Profile objects
 
 
-- [GET: `/api/users/`](#get-apiusers)
+- [GET: `/api/users`](#get-apiusers)
 - [GET: `/api/users/:username`](#get-apiusersusername)
 - [POST: `/api/users/:username`](#post-apiusersusername)
-- [GET: `/api/users/:username/:collection/`](#get-apiusersusernamecollection)
-- [POST: `/api/users/:username/:collection/`](#post-apiusersusernamecollection)
-- [DELETE: `/api/users/:username/:collection/`](#delete-apiusersusernamecollection)
+- [GET: `/api/users/:username/:collection`](#get-apiusersusernamecollection)
+- [POST: `/api/users/:username/:collection`](#post-apiusersusernamecollection)
+- [DELETE: `/api/users/:username/:collection/:item_id`](#delete-apiusersusernamecollection)
 
 ### GET: `/api/users`
 
@@ -108,7 +108,7 @@ Update the user profile for the specified user. Note, the username must match th
 **Example Usage**
 
 ```
-POST /api/users/adam/ HTTP/1.1
+POST /api/users/adam HTTP/1.1
 Authorization: Token d8473d2b993b4ef19c21bcd71fe3f65fe7d6189d
 Content-Type: application/json
 ```
@@ -143,7 +143,7 @@ If there are any missing fields or invalid fields, the server will respond with 
 **Example Invalid Usage**
 
 ```
-POST /api/users/adam/ HTTP/1.1
+POST /api/users/adam HTTP/1.1
 Authorization: Token d8473d2b993b4ef19c21bcd71fe3f65fe7d6189d
 Content-Type: application/json
 ```
@@ -177,7 +177,7 @@ Get a list of all cellar items for the specified user and the specified collecti
 **Example Usage**
 
 ```
-GET /api/users/adam/cellar/ HTTP/1.1
+GET /api/users/adam/cellar HTTP/1.1
 Authorization: Token d8473d2b993b4ef19c21bcd71fe3f65fe7d6189d
 ```
 
@@ -220,7 +220,7 @@ Add or Update a collection item depending on the presence of the `pk` value in t
 **Example Usage**
 
 ```
-GET /api/users/adam/cellar/ HTTP/1.1
+GET /api/users/adam/cellar HTTP/1.1
 Authorization: Token d8473d2b993b4ef19c21bcd71fe3f65fe7d6189d
 ```
 ```json
@@ -271,21 +271,15 @@ Content-Type: application/json
 In this example, the cellar item was updated since a `pk` was provided. If it were `null` then the data would have been added as a new item and the `created` response field would have been `false`.
 
 
-### DELETE: `/api/users/:username/:collection`
+### DELETE: `/api/users/:username/:collection/:item_id`
 
 Delete the specified collection item for the specified user. If the `pk` provided doesn't match an item for that user in that collection, the server will respond with a 404 Not Found error.
 
 **Example Usage**
 
 ```
-GET /api/users/adam/cellar/ HTTP/1.1
+DELETE /api/users/adam/cellar/14 HTTP/1.1
 Authorization: Token d8473d2b993b4ef19c21bcd71fe3f65fe7d6189d
-```
-```json
-{
-  "pk": 14
-}
-
 ```
 
 **Example Response**

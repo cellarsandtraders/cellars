@@ -56,15 +56,15 @@ def _user_update(request, username):
 
 
 @endpoint
-def collection(request, username, collection):
+def collection(request, username, collection, item_id=None):
     if request.method == 'GET':
         return _user_collection_list(request, username, collection)
 
     elif request.method == 'POST':
         return _user_collection_update(request, username, collection)
 
-    elif request.method == 'DELETE':
-        return _user_collection_delete(request, username, collection)
+    elif request.method == 'DELETE' and item_id:
+        return _user_collection_delete(request, username, collection, item_id)
 
 
 def _user_collection_list(request, username, collection):
@@ -103,15 +103,14 @@ def _user_collection_update(request, username, collection_type):
 
 
 @token_required
-def _user_collection_delete(request, username, collection_type):
+def _user_collection_delete(request, username, collection_type, item_id):
     user = request.user
     collection = user.cellar if collection_type == 'cellar' else user.wishlist
     # Do not allow a user to update anyone other than themself
     if user.username != username:
         return json_response({'error': "Forbidden"}, status=403)
 
-    data = json.loads(request.body)
-    item = get_object_or_404(collection, pk=data['pk'])
+    item = get_object_or_404(collection, pk=item_id)
     if item:
         item.delete()
         action.send(

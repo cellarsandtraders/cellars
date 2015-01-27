@@ -192,9 +192,10 @@ class UserCollectionTests(TestCase):
         self.assertEqual(self.user.cellar.all().count(), 1)
         response = self.client.delete(
             reverse('collection', kwargs={
-                'username': self.username, 'collection': self.collection
+                'username': self.username,
+                'collection': self.collection,
+                'item_id': item.pk
             }),
-            json.dumps({'pk': item.pk}),
             HTTP_AUTHORIZATION='Token {}'.format(self.token.token),
             content_type='application/json'
         )
@@ -204,9 +205,10 @@ class UserCollectionTests(TestCase):
     def test_user_collection_delete_invalid_item(self):
         response = self.client.delete(
             reverse('collection', kwargs={
-                'username': self.username, 'collection': self.collection
+                'username': self.username,
+                'collection': self.collection,
+                'item_id': 999
             }),
-            json.dumps({'pk': 999}),
             HTTP_AUTHORIZATION='Token {}'.format(self.token.token),
             content_type='application/json'
         )
@@ -214,9 +216,10 @@ class UserCollectionTests(TestCase):
 
         response = self.client.delete(
             reverse('collection', kwargs={
-                'username': 'not_mine', 'collection': self.collection
+                'username': 'not_mine',
+                'collection': self.collection,
+                'item_id': 999
             }),
-            json.dumps({}),
             HTTP_AUTHORIZATION='Token {}'.format(self.token.token),
             content_type='application/json'
         )
