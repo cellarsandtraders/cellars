@@ -4,9 +4,8 @@ from django.http import HttpResponse, Http404
 from authtokens.models import Token
 
 
-def json_response(data, status=200, serialize=True):
-    if serialize:
-        data = json.dumps(data)
+def json_response(data, status=200):
+    data = json.dumps(data)
     response = HttpResponse(data, content_type="application/json", status=status)
     response['Access-Control-Allow-Origin'] = '*'
     response['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'

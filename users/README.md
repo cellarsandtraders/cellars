@@ -31,25 +31,19 @@ Content-Type: application/json
 ```json
 [
   {
-    "fields": {
-      "username": "adam",
-      "first_name": "",
-      "last_name": "",
-      "email": "",
-      "is_active": true,
-      "is_superuser": false,
-      "is_staff": false,
-      "last_login": "2015-01-04T22:51:35.144Z",
-      "cellar": [ ],
-      "wants": [ ],
-      "groups": [ ],
-      "user_permissions": [ ],
-      "created": "2015-01-04T22:51:35.238Z",
-      "modified": "2015-01-04T22:51:35.238Z",
-      "date_joined": "2015-01-04T22:51:35.144Z"
-    },
-    "model": "users.userprofile",
-    "pk": 1
+    "username": "adam",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_active": true,
+    "is_superuser": false,
+    "is_staff": false,
+    "last_login": "2015-01-04T22:51:35.144Z",
+    "cellar": [1, 2, 3],
+    "wants": [4, 5],
+    "created": "2015-01-04T22:51:35.238Z",
+    "modified": "2015-01-04T22:51:35.238Z",
+    "date_joined": "2015-01-04T22:51:35.144Z"
   }
 ]
 
@@ -75,29 +69,21 @@ Content-Type: application/json
 ```
 
 ```json
-[
-  {
-    "fields": {
-      "username": "adam",
-      "first_name": "",
-      "last_name": "",
-      "email": "",
-      "is_active": true,
-      "is_superuser": false,
-      "is_staff": false,
-      "last_login": "2015-01-04T22:51:35.144Z",
-      "cellar": [ ],
-      "wants": [ ],
-      "groups": [ ],
-      "user_permissions": [ ],
-      "created": "2015-01-04T22:51:35.238Z",
-      "modified": "2015-01-04T22:51:35.238Z",
-      "date_joined": "2015-01-04T22:51:35.144Z"
-    },
-    "model": "users.userprofile",
-    "pk": 1
-  }
-]
+{
+  "username": "adam",
+  "first_name": "",
+  "last_name": "",
+  "email": "",
+  "is_active": true,
+  "is_superuser": false,
+  "is_staff": false,
+  "last_login": "2015-01-04T22:51:35.144Z",
+  "cellar": [1, 2, 3],
+  "wants": [4, 5],
+  "created": "2015-01-04T22:51:35.238Z",
+  "modified": "2015-01-04T22:51:35.238Z",
+  "date_joined": "2015-01-04T22:51:35.144Z"
+}
 
 ```
 
@@ -190,24 +176,20 @@ Content-Type: application/json
 
 ```json
 [
-    {
-        "fields": {
-            "brewery_id": "lZfiot",
-            "style": "American-Style Imperial Stout",
-            "brewery_name": "Half Acre Beer Company",
-            "created": "2015-01-11T23:20:14.361Z",
-            "modified": "2015-01-11T23:20:21.853Z",
-            "label": "https://s3.amazonaws.com/brewerydbapi/beer/sHgBrJ/upload_9PO5av-large.png",
-            "willing_to_trade": true,
-            "beer_name": "Big Hugs",
-            "abv": 10,
-            "year": "2012",
-            "beer_id": "sHgBrJ",
-            "quantity": 1
-        },
-        "model": "users.cellaritem",
-        "pk": 14
-    }
+  {
+    "brewery_id": "lZfiot",
+    "style": "American-Style Imperial Stout",
+    "brewery_name": "Half Acre Beer Company",
+    "created": "2015-01-11T23:20:14.361Z",
+    "modified": "2015-01-11T23:20:21.853Z",
+    "label": "https://s3.amazonaws.com/brewerydbapi/beer/sHgBrJ/upload_9PO5av-large.png",
+    "willing_to_trade": true,
+    "beer_name": "Big Hugs",
+    "abv": 10,
+    "year": "2012",
+    "beer_id": "sHgBrJ",
+    "quantity": 1
+  }
 ]
 
 ```
@@ -220,7 +202,7 @@ Add or Update a collection item depending on the presence of the `pk` value in t
 **Example Usage**
 
 ```
-GET /api/users/adam/cellar HTTP/1.1
+POST /api/users/adam/cellar HTTP/1.1
 Authorization: Token d8473d2b993b4ef19c21bcd71fe3f65fe7d6189d
 ```
 ```json

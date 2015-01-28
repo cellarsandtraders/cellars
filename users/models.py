@@ -18,11 +18,22 @@ class UserProfile(AbstractUser, DateTimeAware):
     cellar = models.ManyToManyField("CellarItem", related_name='cellar')
     wishlist = models.ManyToManyField("CellarItem", related_name='wishlist')
 
-    API_FIELDS = [
-        "username", "wishlist", "first_name", "last_name", "created",
-        "is_active", "modified", "is_superuser", "is_staff", "last_login",
-        "groups", "user_permissions", "email", "cellar", "date_joined",
-    ]
+    def to_json(self):
+        return {
+            "username": self.username,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "email": self.email,
+            "created": self.created.isoformat(),
+            "modified": self.modified,
+            "date_joined": self.date_joined.isoformat(),
+            "last_login": self.last_login.isoformat(),
+            "is_active": self.is_active,
+            "is_superuser": self.is_superuser,
+            "is_staff": self.is_staff,
+            "cellar": [x.id for x in self.cellar.all()],
+            "wishlist": [x.id for x in self.wishlist.all()],
+        }
 
 
 class CellarItem(DateTimeAware):
@@ -39,6 +50,21 @@ class CellarItem(DateTimeAware):
 
     def __unicode__(self):
         return self.beer_name
+
+    def to_json(self):
+        return {
+            "id": self.id,
+            "beer_id": self.beer_id,
+            "beer_name": self.beer_name,
+            "brewery_id": self.brewery_id,
+            "brewery_name": self.brewery_name,
+            "style": self.style,
+            "abv": self.abv,
+            "year": self.year,
+            "quantity": self.quantity,
+            "willing_to_trade": self.willing_to_trade,
+            "label": self.willing_to_trade
+        }
 
 
 # Post save stuff

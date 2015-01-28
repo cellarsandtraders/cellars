@@ -27,7 +27,7 @@ class UserTests(TestCase):
         response_data = json.loads(response.content)
         self.assertTrue(isinstance(response_data, list))
         self.assertTrue(len(response_data), 1)
-        self.assertEqual(response_data[0]['fields']['username'], self.username)
+        self.assertEqual(response_data[0]['username'], self.username)
 
     def test_user_details(self):
         response = self.client.get(
@@ -37,9 +37,9 @@ class UserTests(TestCase):
 
         # Read the response data
         response_data = json.loads(response.content)
-        self.assertTrue(isinstance(response_data, list))
+        self.assertTrue(isinstance(response_data, dict))
         self.assertTrue(len(response_data), 1)
-        self.assertEqual(response_data[0]['fields']['username'], self.username)
+        self.assertEqual(response_data['username'], self.username)
 
     def test_user_not_found(self):
         response = self.client.get(
@@ -136,7 +136,7 @@ class UserCollectionTests(TestCase):
         response_data = json.loads(response.content)
         self.assertTrue(isinstance(response_data, list))
         self.assertTrue(len(response_data), 1)
-        self.assertEqual(response_data[0]['fields']['beer_name'], u'Big Hugs')
+        self.assertEqual(response_data[0]['beer_name'], u'Big Hugs')
 
     def test_user_collection_update(self):
         ## Add an item to an empty collection

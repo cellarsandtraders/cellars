@@ -5,7 +5,6 @@ from actstream.actions import (
     unfollow as unfollow_action
 )
 from actstream.models import Action, user_stream
-from django.core import serializers
 from django.shortcuts import get_object_or_404
 
 from utils import json_response, endpoint, token_required
@@ -16,10 +15,8 @@ from users.forms import CellarItemForm, UserProfileForm
 @endpoint
 def user_list(request):
     if request.method == 'GET':
-        users = serializers.serialize(
-            "json", UserProfile.objects.all(), fields=UserProfile.API_FIELDS
-        )
-        return json_response(users, serialize=False)
+        users = [user.to_json() for user in UserProfile.objects.all()]
+        return json_response(users)
 
 
 @endpoint
@@ -33,10 +30,7 @@ def profile(request, username):
 
 def _user_details(request, username):
     user = get_object_or_404(UserProfile, username=username)
-    response = serializers.serialize(
-        "json", [user], fields=UserProfile.API_FIELDS
-    )
-    return json_response(response, serialize=False)
+    return json_response(user.to_json())
 
 
 @token_required
@@ -70,8 +64,8 @@ def collection(request, username, collection, item_id=None):
 def _user_collection_list(request, username, collection):
     user = get_object_or_404(UserProfile, username=username)
     collection = user.cellar if collection == 'cellar' else user.wishlist
-    cellar = serializers.serialize("json", collection.all())
-    return json_response(cellar, serialize=False)
+    cellar = [item.to_json() for item in collection.all()]
+    return json_response(cellar)
 
 
 @token_required
