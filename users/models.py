@@ -25,7 +25,7 @@ class UserProfile(AbstractUser, DateTimeAware):
             "last_name": self.last_name,
             "email": self.email,
             "created": self.created.isoformat(),
-            "modified": self.modified,
+            "modified": self.modified.isoformat(),
             "date_joined": self.date_joined.isoformat(),
             "last_login": self.last_login.isoformat(),
             "is_active": self.is_active,
