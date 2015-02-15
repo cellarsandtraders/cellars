@@ -46,8 +46,31 @@ HTTP/1.0 201 CREATED
 Access-Control-Allow-Origin: *
 Access-Control-Allow-Headers: Content-Type, Authorization
 Content-Type: application/json
-
-{"username": "AzureDiamond", "token": "d96163b8bc9127d8c5d5839018580123c64a324b"}
+```
+```json
+{
+    "token": "d96163b8bc9127d8c5d5839018580123c64a324b",
+    "user":   {
+        "username": "AzureDiamond",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_active": true,
+        "is_superuser": false,
+        "is_staff": false,
+        "last_login": "2015-01-04T22:51:35.144Z",
+        "cellar": [1, 2, 3],
+        "wants": [4, 5],
+        "address": "123 N Main St.",
+        "address2": "#100",
+        "city": "Chicago",
+        "state": "IL",
+        "zipcode": "60647",
+        "created": "2015-01-04T22:51:35.238Z",
+        "modified": "2015-01-04T22:51:35.238Z",
+        "date_joined": "2015-01-04T22:51:35.144Z"
+    }
+}
 ```
 
 
@@ -77,8 +100,31 @@ HTTP/1.0 200 OK
 Access-Control-Allow-Origin: *
 Access-Control-Allow-Headers: Content-Type, Authorization
 Content-Type: application/json
-
-{"username": "AzureDiamond", "token": "d96163b8bc9127d8c5d5839018580123c64a324b"}
+```
+```json
+{
+    "token": "d96163b8bc9127d8c5d5839018580123c64a324b",
+    "user":   {
+        "username": "AzureDiamond",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_active": true,
+        "is_superuser": false,
+        "is_staff": false,
+        "last_login": "2015-01-04T22:51:35.144Z",
+        "cellar": [1, 2, 3],
+        "wants": [4, 5],
+        "address": "123 N Main St.",
+        "address2": "#100",
+        "city": "Chicago",
+        "state": "IL",
+        "zipcode": "60647",
+        "created": "2015-01-04T22:51:35.238Z",
+        "modified": "2015-01-04T22:51:35.238Z",
+        "date_joined": "2015-01-04T22:51:35.144Z"
+    }
+}
 ```
 
 

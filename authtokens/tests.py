@@ -27,12 +27,14 @@ class RegisterTests(TestCase):
         # Read the response data
         response_data = json.loads(response.content)
         response_token = response_data['token']
-        username = response_data['username']
+        response_user = response_data['user']
 
         # Assert the response token matches the user record in the DB
-        user = get_user_model().objects.get(username=username)
+        self.assertTrue('username' in response_user)
+        user = get_user_model().objects.get(username=response_user['username'])
         authtoken = user.authtoken.get()
         self.assertEqual(authtoken.token, response_token)
+        self.assertEqual(user.to_json(), response_user)
 
     def test_repeat_registration(self):
         # Create the request to register a new user
@@ -89,12 +91,14 @@ class LoginLogoutTests(TestCase):
         # Read the response data
         response_data = json.loads(response.content)
         response_token = response_data['token']
-        username = response_data['username']
+        response_user = response_data['user']
 
         # Assert the response token matches the user record in the DB
-        user = get_user_model().objects.get(username=username)
+        self.assertTrue('username' in response_user)
+        user = get_user_model().objects.get(username=response_user['username'])
         authtoken = user.authtoken.get()
         self.assertEqual(authtoken.token, response_token)
+        self.assertEqual(user.to_json(), response_user)
 
     def test_repeat_login(self):
         # Login with existing credentials

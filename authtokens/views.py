@@ -23,7 +23,7 @@ def register(request):
 
         return json_response({
             'token': token.token,
-            'username': user.username
+            'user': user.to_json()
         }, status=201)
 
 
@@ -41,7 +41,7 @@ def login(request):
                     token, created = Token.objects.get_or_create(user=user)
                     return json_response({
                         'token': token.token,
-                        'username': user.username
+                        'user': user.to_json()
                     })
                 else:
                     return json_response({
