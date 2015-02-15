@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 
+from localflavor.us.models import USStateField, USZipCodeField
+
 from actstream import action
 
 
@@ -17,9 +19,16 @@ class UserProfile(AbstractUser, DateTimeAware):
     #Add other user attributes here
     cellar = models.ManyToManyField("CellarItem", related_name='cellar')
     wishlist = models.ManyToManyField("CellarItem", related_name='wishlist')
+    # Shipping Address info
+    address = models.TextField(blank=True)
+    address2 = models.CharField(max_length=200, blank=True)
+    city = models.CharField(max_length=200, blank=True)
+    state = USStateField(blank=True)
+    zipcode = USZipCodeField(blank=True)
 
     def to_json(self):
         return {
+            # User Profile
             "username": self.username,
             "first_name": self.first_name,
             "last_name": self.last_name,
@@ -31,8 +40,15 @@ class UserProfile(AbstractUser, DateTimeAware):
             "is_active": self.is_active,
             "is_superuser": self.is_superuser,
             "is_staff": self.is_staff,
+            # Collections
             "cellar": [x.id for x in self.cellar.all()],
             "wishlist": [x.id for x in self.wishlist.all()],
+            # Shipping Address
+            "address": self.address,
+            "address2": self.address2,
+            "city": self.city,
+            "state": self.state,
+            "zipcode": self.zipcode,
         }
 
 

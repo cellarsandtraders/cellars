@@ -41,6 +41,11 @@ Content-Type: application/json
     "last_login": "2015-01-04T22:51:35.144Z",
     "cellar": [1, 2, 3],
     "wants": [4, 5],
+    "address": "123 N Main St.",
+    "address2": "#100",
+    "city": "Chicago",
+    "state": "IL",
+    "zipcode": "60647",
     "created": "2015-01-04T22:51:35.238Z",
     "modified": "2015-01-04T22:51:35.238Z",
     "date_joined": "2015-01-04T22:51:35.144Z"
@@ -80,6 +85,11 @@ Content-Type: application/json
   "last_login": "2015-01-04T22:51:35.144Z",
   "cellar": [1, 2, 3],
   "wants": [4, 5],
+  "address": "123 N Main St.",
+  "address2": "#100",
+  "city": "Chicago",
+  "state": "IL",
+  "zipcode": "60647",
   "created": "2015-01-04T22:51:35.238Z",
   "modified": "2015-01-04T22:51:35.238Z",
   "date_joined": "2015-01-04T22:51:35.144Z"
@@ -103,7 +113,12 @@ Content-Type: application/json
   "username": "adam",
   "first_name":"Adam",
   "last_name": "Wonak",
-  "email": "adam.wonak@gmail.com"
+  "email": "adam.wonak@gmail.com",
+  "address": "123 N Main St.",
+  "address2": "#100",
+  "city": "Chicago",
+  "state": "IL",
+  "zipcode": "60647"
 }
 ```
 
@@ -119,7 +134,12 @@ Content-Type: application/json
   "username": "adam",
   "first_name": "Adam",
   "last_name": "Wonak",
-  "email": "adam.wonak@gmail.com"
+  "email": "adam.wonak@gmail.com",
+  "address": "123 N Main St.",
+  "address2": "#100",
+  "city": "Chicago",
+  "state": "IL",
+  "zipcode": "60647"
 }
 ```
 

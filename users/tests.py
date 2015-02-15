@@ -71,6 +71,39 @@ class UserTests(TestCase):
 
         self.assertEqual(UserProfile.objects.filter(email=new_email).count(), 1)
 
+    def test_user_update_address(self):
+        self.assertEqual(UserProfile.objects.filter(address="address").count(), 0)
+        new_data = {
+            'username': self.user.username,
+            'first_name': "Test",
+            'last_name': "User",
+            'email': "test@example.com",
+            "address": "address",
+            "address2": "address2",
+            "city": "city",
+            "state": "IL",  # Must be valid state
+            "zipcode": "60647",  # Must be valid postal code
+        }
+        response = self.client.post(
+            reverse('profile', kwargs={'username': self.username}),
+            json.dumps(new_data),
+            HTTP_AUTHORIZATION='Token {}'.format(self.token.token),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 200)
+
+        # Read the response data
+        response_data = json.loads(response.content)
+        self.assertTrue(isinstance(response_data, dict))
+        self.assertEqual(response_data['username'], self.username)
+        self.assertEqual(response_data['address'], "address")
+        self.assertEqual(response_data['address2'], "address2")
+        self.assertEqual(response_data['city'], "city")
+        self.assertEqual(response_data['state'], "IL")
+        self.assertEqual(response_data['zipcode'], "60647")
+
+        self.assertEqual(UserProfile.objects.filter(address="address").count(), 1)
+
     def test_user_update_validation_error(self):
         new_data = {
             'username': self.username,

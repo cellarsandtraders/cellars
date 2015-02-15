@@ -4,15 +4,19 @@ from users.models import CellarItem, UserProfile
 
 
 class UserProfileForm(ModelForm):
+    _required = ['username', 'first_name', 'last_name', 'email']
     def __init__(self, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)
 
-        for key in self.fields:
+        for key in self._required:
             self.fields[key].required = True
 
     class Meta:
         model = UserProfile
-        fields = ['username', 'first_name', 'last_name', 'email']
+        fields = [
+            'username', 'first_name', 'last_name', 'email', 'address',
+            'address2', 'city', 'state', 'zipcode'
+        ]
 
 
 class CellarItemForm(ModelForm):
